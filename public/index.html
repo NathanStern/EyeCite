@@ -44,8 +44,23 @@
 
     <!-- TODO: Add SDKs for Firebase products that you want to use
         https://firebase.google.com/docs/web/setup#reserved-urls -->
+        <script src="/__/firebase/6.6.1/firebase-auth.js"></script>
 
-    <!-- Initialize Firebase -->
-    <script src="/__/firebase/init.js"></script>
+    
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyCsXFDlk2T7hZGKhcLFSBqy9uPRl-pgD8w",
+        authDomain: "myfridge-7b800.firebaseapp.com",
+        databaseURL: "https://myfridge-7b800.firebaseio.com",
+        projectId: "myfridge-7b800",
+        storageBucket: "",
+        messagingSenderId: "625326027755",
+        appId: "1:625326027755:web:2ce4118b3a4b7083465fae"
+      };
+      // initialize firebase
+      firebase.initializeApp(firebaseConfig);
+      firebase.analytics();
+    </script>
   </body>
 </html>
