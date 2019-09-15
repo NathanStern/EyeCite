@@ -54,11 +54,11 @@ function Index(props) {
 
   async function signIn() {
     await signInWithGoogle();
-    getItems();
+    await getItems();
   }
 
   async function getItems() {
-    firebase
+    await firebase
       .firestore()
       .collection("users")
       .doc(firebase.auth().currentUser.uid)
@@ -87,6 +87,11 @@ function Index(props) {
               rows.push(newRow);
               setRows([...rows]);
 
+              firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('items').doc(itemName+"_"+itemDate).set({
+                Name: itemName,
+                ExpDate: itemDate
+              });
+
               var today = new Date();
               var dd = String(today.getDate()).padStart(2, "0");
               var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
@@ -108,26 +113,9 @@ function Index(props) {
         });
       });
   }
-
-  function addRow(itemName, itemDate) {
-    let newRow = (<tr>
-        <td>{itemName}</td>
-        <td>{itemDate}</td>
-        <td><button type="button" onClick={() => {}}>Remove</button></td>
-    </tr>);
-
-    if (rows) {
-        setRows([...rows, newRow]);
-    } else {
-        setRows([newRow]);
-    }
-    newRows.push(newRow); 
-
-    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('items').doc(itemName+"_"+itemDate).set({
-      Name: itemName,
-      ExpDate: itemDate
-    });
-  function deleteItem() {}
+  
+  function deleteItem() {
+  }
 
   async function addRow(itemName, itemDate) {
     let newRow = { itemName, itemDate };
