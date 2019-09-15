@@ -16,7 +16,6 @@ const providers = {
 };
 
 
-
 function Index(props) {
   const {
     user,
@@ -46,7 +45,7 @@ function Index(props) {
                     <tr>
                         <td><input type="text" name="food" id="food"></input></td>
                         <td><input type="date" date="expirationDate"></input></td>
-                        <td><button type="button" onClick="document.getElementById(demo)">Add</button></td>
+                        <td><button type="button" onclick="">Add</button></td>
                     </tr>
                 </table>
             </form>
