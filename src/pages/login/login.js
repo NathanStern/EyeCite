@@ -26,6 +26,14 @@ function Login(props) {
     signInWithGoogle,
   } = props;
 
+
+function renderItems(props) {
+  const user = props.user;
+  let itemComponents = 
+
+
+}
+
   return (
     <div className="App">
       <header className="App-header">
@@ -40,6 +48,7 @@ function Login(props) {
             ? <button onClick={signOut}>Sign out</button>
             : <button onClick={signInWithGoogle}>Sign in with Google</button>
         }
+        {renderItems}
       </header>
     </div>
   );
