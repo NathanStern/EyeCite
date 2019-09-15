@@ -3,7 +3,7 @@
 }
 
 .googleButton {
-  background-color: rgb(255, 255, 255); /* Green */
+  background-color: rgb(212, 154, 154); /* Green */
   border: none;
   color: rgb(0, 0, 0);
   padding: 15px 32px;
@@ -24,7 +24,7 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #ffffff;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
