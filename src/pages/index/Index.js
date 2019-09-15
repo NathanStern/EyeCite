@@ -1,16 +1,18 @@
 import React from 'react';
 import './Index.css';
+import mainlogo from './fridge.png';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 function Index() {
   return (
     <div className="App">
-      <h1  align="left">MyFridge</h1>
+      <button id="button-logout">Logout</button>
       <header className="App-header">
-        <Link to="/login/">Login</Link>
+      <style>{'body { background-color: lightgrey; }'}</style>
+      <h1 classname = {"App-header"}>myFridge</h1>
       </header>
-    
-    </div>
+      <img src={mainlogo} className="App-logo" alt="fridge" flex="bottom"/>
+    </div>  
   );
 }
 
