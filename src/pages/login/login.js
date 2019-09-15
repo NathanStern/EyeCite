@@ -29,7 +29,7 @@ function Login(props) {
 
 function renderItems(props) {
   const user = props.user;
-  let itemComponents = 
+  let itemComponents = null;
 
 
 }
