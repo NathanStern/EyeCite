@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Content.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import displayData from './displayData';
@@ -67,6 +67,34 @@ function Index(props) {
     signInWithGoogle,
   } = props;
 
+  const [rows, setRows] = useState();
+  
+  function addRow() {
+    var itemName = document.getElementById('food').value;
+    var itemDate = document.getElementById('date').value;
+
+    let newRow = (<tr>
+        <td>{itemName}</td>
+        <td>{itemDate}</td>
+        <td><button type="button" onClick={() => {}}>Remove</button></td>
+        <td>{getItems}</td>
+    </tr>);
+
+    let newRows;
+    if (rows) {
+        newRows = rows;
+    } else {
+        newRows = [];
+    }
+    newRows.push(newRow); 
+
+    setRows(newRows);
+    console.log(itemName);
+    console.log(itemDate);
+  }
+
+  console.log(rows);
+
   return (
     <div className="App">
       <h1  align="left">MyFridge</h1>
@@ -87,16 +115,20 @@ function Index(props) {
             <div id= "table">
             <form method="post" action="myfridge.php">
                 <table>
-                    <tr>
-                         <th>Food Item</th>
-                         <th>Expiration Date</th>
-                         <th>Action</th>
-                    </tr>
-                    <tr>
-                        <td><input type="text" name="food" id="food"></input></td>
-                        <td><input type="date" date="expirationDate" id="date"></input></td>
-                        <td><button type="button" onClick={createItem}>Add</button></td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <th>Food Item</th>
+                            <th>Expiration Date</th>
+                            <th>Action</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="food" id="food"></input></td>
+                            <td><input type="date" date="expirationDate" id="date"></input></td>
+                            <td><button type="button" onClick={addRow}>Add</button></td>
+                            <td>{getItems}</td>
+                        </tr>
+                        {rows}
+                    </tbody>
                 </table>
             </form>
             {getItems}
