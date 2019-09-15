@@ -58,55 +58,63 @@ function Index(props) {
   }
 
   async function getItems() {
-    await firebase
-      .firestore()
-      .collection("users")
-      .doc(firebase.auth().currentUser.uid)
-      .collection("items")
-      .get({ source: "default" })
-      .then(function(documentSnapshot) {
-        documentSnapshot.forEach(doc => {
-          console.log(doc["id"]);
-          var myDocRef = firebase
-            .firestore()
-            .collection("users")
-            .doc(firebase.auth().currentUser.uid)
-            .collection("items")
-            .doc(doc["id"]);
+    //await signInWithGoogle();
+    firebase.auth().onAuthStateChanged(async user => {
+      if (user) {
+        await firebase
+          .firestore()
+          .collection("users")
+          .doc(firebase.auth().currentUser.uid)
+          .collection("items")
+          .get({ source: "default" })
+          .then(function(documentSnapshot) {
+            documentSnapshot.forEach(doc => {
+              console.log(doc["id"]);
+              var myDocRef = firebase
+                .firestore()
+                .collection("users")
+                .doc(firebase.auth().currentUser.uid)
+                .collection("items")
+                .doc(doc["id"]);
 
-          myDocRef
-            .get()
-            .then(function(doc) {
-              // console.log(doc.data().Name);
-              // console.log(doc.data().ExpDate);
+              myDocRef
+                .get()
+                .then(function(doc) {
+                  // console.log(doc.data().Name);
+                  // console.log(doc.data().ExpDate);
 
-              var itemName = doc.data().Name;
-              var itemDate = doc.data().ExpDate;
+                  var itemName = doc.data().Name;
+                  var itemDate = doc.data().ExpDate;
 
-              let newRow = { itemName, itemDate };
-              rows.push(newRow);
-              setRows([...rows]);
+                  let newRow = { itemName, itemDate };
+                  rows.push(newRow);
+                  setRows([...rows]);
 
-              var today = new Date();
-              var dd = String(today.getDate()).padStart(2, "0");
-              var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-              var yyyy = today.getFullYear();
+                  var today = new Date();
+                  var dd = String(today.getDate()).padStart(2, "0");
+                  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+                  var yyyy = today.getFullYear();
 
-              today = yyyy + "-" + mm + "-" + dd;
-              if (today === itemDate) {
-                window.alert(
-                  itemName +
-                    " is expiring today! You should use it now. Here are some recipes that may help! https://www.allrecipes.com/search/results/?wt=" +
-                    itemName +
-                    "&sort=re"
-                );
-              }
-            })
-            .catch(function(error) {
-              console.log(error);
+                  today = yyyy + "-" + mm + "-" + dd;
+                  if (today === itemDate) {
+                    window.alert(
+                      itemName +
+                        " is expiring today! You should use it now. Here are some recipes that may help! https://www.allrecipes.com/search/results/?wt=" +
+                        itemName +
+                        "&sort=re"
+                    );
+                  }
+                })
+                .catch(function(error) {
+                  console.log(error);
+                });
             });
-        });
-      });
+          });
+      } else {
+        await signInWithGoogle();
+        window.location.pathname = "/content/";
+      }
+    });
   }
 
   async function addRow(itemName, itemDate) {
@@ -127,8 +135,7 @@ function Index(props) {
   }
 
   document.addEventListener("DOMContentLoaded", async function(event) {
-    await signInWithGoogle();
-    getItems();
+    await getItems();
   });
 
   console.log(rows);
