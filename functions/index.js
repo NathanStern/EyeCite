@@ -1,5 +1,5 @@
 const functions = require('firebase-functions');
-const firebase = require('firebase-admin')
+const firebase = require('firebase-admin');
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -10,18 +10,10 @@ const firebase = require('firebase-admin')
 
 firebase.initializeApp();
 
-exports.setupDatabase = functions.auth.user().onCreate(async(user) => {
-    var firebaseVar = await firebase.firestore().collection('items').add({
-        Name: "test",
-        UID: user.uid
-    });
-    console.log(firebaseVar);
-    return firebase.firestore().collection('users').doc(user.uid).set({
-        Items: [firebaseVar.path],
-    }).catch((error) => {
-        console.log(error);
-    
-    });
+exports.setupDatabase = functions.auth.user().onCreate((user) => {
 
-
+    return firebase.firestore().collection('users').doc(user.uid).collection('items').doc('initialDoc').set({
+        Name: "Test",
+        ExpDate: "2001-10-29"
+    });
   });
