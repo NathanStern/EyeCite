@@ -16,7 +16,7 @@ const providers = {
 };
 
 function homeRedirect() {
-
+  window.location.pathname = "/"
 }
 
 function Login(props) {
