@@ -1,7 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Index from "./pages/index/Index";
-import login from "./pages/login/login";
+import login from "./pages/Login/Login";
+
 
 function App() {
     return (
@@ -12,4 +13,4 @@ function App() {
     );
   }
 
-  export default App;
+  export default (App);
