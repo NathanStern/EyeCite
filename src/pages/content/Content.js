@@ -54,7 +54,6 @@ function Index(props) {
 
   async function signIn() {
     await signInWithGoogle();
-    await getItems();
   }
 
   let signOutBool = false;
@@ -114,8 +113,6 @@ function Index(props) {
               });
             });
         } else {
-          await signInWithGoogle();
-          window.location.pathname = "/content/";
         }
       });
     } else {
@@ -143,6 +140,7 @@ function Index(props) {
 
   function redirect() {
     signOut();
+    window.location.pathname = "/";
   }
 
   document.addEventListener("DOMContentLoaded", async function(event) {
@@ -153,7 +151,9 @@ function Index(props) {
   return (
     <div className="App">
       <header className="App-header">
-        <h1 classname={"App-header"}>myFridge</h1>
+        <a href="/">
+          <h1 classname={"App-header"}>myFridge</h1>
+        </a>
         <style>{"body { background-color: lightgrey; }"}</style>
         {user ? (
           <button className="logoutButton" onClick={redirect}>
