@@ -142,7 +142,7 @@ function Index(props) {
   }
 
   function redirect() {
-    window.location.pathname = "/";
+    signOut();
   }
 
   document.addEventListener("DOMContentLoaded", async function(event) {
