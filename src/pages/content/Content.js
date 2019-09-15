@@ -57,64 +57,71 @@ function Index(props) {
     await getItems();
   }
 
+  let signOutBool = false;
+
   async function getItems() {
     //await signInWithGoogle();
-    firebase.auth().onAuthStateChanged(async user => {
-      if (user) {
-        await firebase
-          .firestore()
-          .collection("users")
-          .doc(firebase.auth().currentUser.uid)
-          .collection("items")
-          .get({ source: "default" })
-          .then(function(documentSnapshot) {
-            documentSnapshot.forEach(doc => {
-              console.log(doc["id"]);
-              var myDocRef = firebase
-                .firestore()
-                .collection("users")
-                .doc(firebase.auth().currentUser.uid)
-                .collection("items")
-                .doc(doc["id"]);
+    if (signOutBool === false) {
+      firebase.auth().onAuthStateChanged(async user => {
+        if (user) {
+          await firebase
+            .firestore()
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("items")
+            .get({ source: "default" })
+            .then(function(documentSnapshot) {
+              documentSnapshot.forEach(doc => {
+                console.log(doc["id"]);
+                var myDocRef = firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(firebase.auth().currentUser.uid)
+                  .collection("items")
+                  .doc(doc["id"]);
 
-              myDocRef
-                .get()
-                .then(function(doc) {
-                  // console.log(doc.data().Name);
-                  // console.log(doc.data().ExpDate);
+                myDocRef
+                  .get()
+                  .then(function(doc) {
+                    // console.log(doc.data().Name);
+                    // console.log(doc.data().ExpDate);
 
-                  var itemName = doc.data().Name;
-                  var itemDate = doc.data().ExpDate;
+                    var itemName = doc.data().Name;
+                    var itemDate = doc.data().ExpDate;
 
-                  let newRow = { itemName, itemDate };
-                  rows.push(newRow);
-                  setRows([...rows]);
+                    let newRow = { itemName, itemDate };
+                    rows.push(newRow);
+                    setRows([...rows]);
 
-                  var today = new Date();
-                  var dd = String(today.getDate()).padStart(2, "0");
-                  var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-                  var yyyy = today.getFullYear();
+                    var today = new Date();
+                    var dd = String(today.getDate()).padStart(2, "0");
+                    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+                    var yyyy = today.getFullYear();
 
-                  today = yyyy + "-" + mm + "-" + dd;
-                  if (today === itemDate) {
-                    window.alert(
-                      itemName +
-                        " is expiring today! You should use it now. Here are some recipes that may help! https://www.allrecipes.com/search/results/?wt=" +
+                    today = yyyy + "-" + mm + "-" + dd;
+                    if (today === itemDate) {
+                      window.alert(
                         itemName +
-                        "&sort=re"
-                    );
-                  }
-                })
-                .catch(function(error) {
-                  console.log(error);
-                });
+                          " is expiring today! You should use it now. Here are some recipes that may help! https://www.allrecipes.com/search/results/?wt=" +
+                          itemName +
+                          "&sort=re"
+                      );
+                    }
+                  })
+                  .catch(function(error) {
+                    console.log(error);
+                  });
+              });
             });
-          });
-      } else {
-        await signInWithGoogle();
-        window.location.pathname = "/content/";
-      }
-    });
+        } else {
+          await signInWithGoogle();
+          window.location.pathname = "/content/";
+        }
+      });
+    } else {
+      signOutBool = true;
+      signOut();
+    }
   }
 
   async function addRow(itemName, itemDate) {
@@ -134,6 +141,10 @@ function Index(props) {
     setRows([...rows, newRow]);
   }
 
+  function redirect() {
+    window.location.pathname = "/";
+  }
+
   document.addEventListener("DOMContentLoaded", async function(event) {
     await getItems();
   });
@@ -145,7 +156,7 @@ function Index(props) {
         <h1 classname={"App-header"}>myFridge</h1>
         <style>{"body { background-color: lightgrey; }"}</style>
         {user ? (
-          <button className="logoutButton" onClick={signOut}>
+          <button className="logoutButton" onClick={redirect}>
             Sign Out
           </button>
         ) : (
