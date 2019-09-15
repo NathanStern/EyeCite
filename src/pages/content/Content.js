@@ -54,11 +54,11 @@ function Index(props) {
 
   async function signIn() {
     await signInWithGoogle();
-    getItems();
+    await getItems();
   }
 
   async function getItems() {
-    firebase
+    await firebase
       .firestore()
       .collection("users")
       .doc(firebase.auth().currentUser.uid)
@@ -109,8 +109,6 @@ function Index(props) {
       });
   }
 
-  function deleteItem() {}
-
   async function addRow(itemName, itemDate) {
     let newRow = { itemName, itemDate };
 
@@ -128,13 +126,24 @@ function Index(props) {
     setRows([...rows, newRow]);
   }
 
+  document.addEventListener("DOMContentLoaded", async function(event) {
+    await signInWithGoogle();
+    getItems();
+  });
+
   console.log(rows);
   return (
     <div className="App">
       <header className="App-header">
         <h1 classname={"App-header"}>myFridge</h1>
         <style>{"body { background-color: lightgrey; }"}</style>
-        {user ? <button onClick={signOut}>Sign Out</button> : <></>}
+        {user ? (
+          <button className="logoutButton" onClick={signOut}>
+            Sign Out
+          </button>
+        ) : (
+          <></>
+        )}
         {user ? (
           <div className="table">
             <form method="post" action="myfridge.php">
