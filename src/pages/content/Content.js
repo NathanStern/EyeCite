@@ -44,9 +44,9 @@ function Index(props) {
                          <th>Action</th>
                     </tr>
                     <tr>
-                        <td><input type="text" name="food"></input></td>
+                        <td><input type="text" name="food" id="food"></input></td>
                         <td><input type="date" date="expirationDate"></input></td>
-                        <td><input type="delete" name="Delete"></input></td>
+                        <td><button type="button" onClick="document.getElementById(demo)">Add</button></td>
                     </tr>
                 </table>
             </form>
@@ -54,6 +54,7 @@ function Index(props) {
             : <button className="googleButton" onClick={signInWithGoogle}>Sign in with Google</button>
         }
       </header>
+    
     </div>
   );
 }
