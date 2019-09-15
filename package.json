@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
     "bootstrap": "^4.3.1",
+    "cors": "^2.8.5",
     "firebase": "^6.6.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
