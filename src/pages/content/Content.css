@@ -41,3 +41,19 @@
   height: 40vmin;
   pointer-events: none;
 }
+
+.logoutButton {
+  background-color: deepskyblue; /* Green */
+  border: 3px black;
+  position: fixed;
+  color: rgb(0, 0, 0);
+  padding: 15px 32px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  top: 0%;
+  right: 0%;
+}
+.logoutButton:hover {
+  background-color: rgb(128, 128, 128);
+}
