@@ -1,7 +1,14 @@
 .App {
-  text-align: center;
+  font-family: Arial;
 }
 
+#button-logout {
+  position: fixed;
+  background-color: deepskyblue;
+  border: none;
+  border-radius: 10px;
+  color: white;
+}
 .googleButton {
   background-color: rgb(212, 154, 154); /* Green */
   border: none;
@@ -11,6 +18,8 @@
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+  top: 0%;
+  right: 0%;
 }
 
 .googleButton:hover {
@@ -18,7 +27,9 @@
 }
 
 .App-logo {
-  animation: App-logo-spin infinite 20s linear;
+  bottom: 2%;
+  right: 2%;
+  position: fixed;
   height: 40vmin;
   pointer-events: none;
 }
@@ -38,12 +49,10 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.App-header {
+  background-color: lightgray;
+  position: fixed;
+  top: -3%;
+  left: 1%;
+  color: Deepskyblue;
 }
-
