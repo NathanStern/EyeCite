@@ -51,32 +51,25 @@ function Index(props) {
   } = props;
 
   const [rows, setRows] = useState();
-  
+
   function addRow() {
     var itemName = document.getElementById('food').value;
     var itemDate = document.getElementById('date').value;
 
-    let newRow = (<tr>
+    let newRow = (
+    <tr>
         <td>{itemName}</td>
         <td>{itemDate}</td>
         <td><button type="button" onClick={() => {}}>Remove</button></td>
         <td>{getItems}</td>
     </tr>);
 
-    let newRows;
     if (rows) {
-        newRows = rows;
+        setRows([...rows, newRow]);
     } else {
-        newRows = [];
+        setRows([newRow]);
     }
-    newRows.push(newRow); 
-
-    setRows(newRows);
-    console.log(itemName);
-    console.log(itemDate);
   }
-
-  console.log(rows);
 
   return (
     <div className="App">
