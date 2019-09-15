@@ -16,19 +16,10 @@ function Index(props) {
       <header className="App-header">
       <style>{'body { background-color: lightgrey; }'}</style>
       <h1 classname = {"App-header"}>myFridge</h1>
-      {
-          user 
-            ? <p>Hello, {user.displayName}</p>
-            : <p>Please sign in.</p>
-        }
-        {
-          user
-            ? <button className="googleButton" onClick={signOut}>Sign out</button>
-            : <button className="googleButton" onClick={signInWithGoogle}>Sign in with Google</button>
-        }
-      
+        myFridge keeps track of your food so forgotten fridge items will never go to waste! All you need to do is enter the items you put in your fridge and their expiration dates. We will send you a text when something you bought is close to expiring, along with some helpful recipes you can use that food in!
       </header>
       <img src={mainlogo} className="App-logo" alt="fridge" flex="bottom"/>
+      <button className="loginButton" onClick={signInAndRedirect}>Log In</button>
     </div>  
   );
 }
