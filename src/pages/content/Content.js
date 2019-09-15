@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './Content.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import displayData from './displayData';
 import mainlogo from './fridge.png';
 
 import withFirebaseAuth from 'react-with-firebase-auth'
-import * as firebase from 'firebase/app';
+import * as firebase from 'firebase';
 import 'firebase/auth';
 import firebaseConfig from '../../firebaseConfig';
 
@@ -16,10 +16,11 @@ const firebaseAppAuth = firebaseApp.auth();
 const providers = {
     googleProvider: new firebase.auth.GoogleAuthProvider()
 };
+ 
 
 function getItems(props) {
   var documentData;
-  firebaseApp.firestore().collection('users').doc(firebaseApp.auth().currentUser.uid).get().then(async function(doc) {
+  firebaseApp.firestore().collection('users').doc(firebase.auth().currentUser.uid).get().then(async function(doc) {
     documentData = await doc.data().items;
   });
   
@@ -28,7 +29,7 @@ function getItems(props) {
     var itemName;
     var itemDate;
     var itemData = [];
-    firebaseApp.firestore().collection('items').doc(documentID).get().then(async function(doc) {
+    firebase.firestore().collection('items').doc(documentID).get().then(async function(doc) {
       itemName = await doc.data().Name;
       itemDate = await doc.data().ExpDate;
       console.log(itemName);
@@ -48,6 +49,15 @@ function createItem(props) {
   var itemDate = document.getElementById('date').value;
   console.log(itemName);
   console.log(itemDate);
+
+  document.getElementById('food').value = "";
+  document.getElementById('date').value = "";
+
+
+  return firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('items').doc(itemName+"_"+itemDate).set({
+    Name: itemName,
+    ExpDate: itemDate
+});
 }
 
 function Index(props) {
@@ -57,6 +67,34 @@ function Index(props) {
     signOut,
     signInWithGoogle,
   } = props;
+
+  const [rows, setRows] = useState();
+  
+  function addRow() {
+    var itemName = document.getElementById('food').value;
+    var itemDate = document.getElementById('date').value;
+
+    let newRow = (<tr>
+        <td>{itemName}</td>
+        <td>{itemDate}</td>
+        <td><button type="button" onClick={() => {}}>Remove</button></td>
+        <td>{getItems}</td>
+    </tr>);
+
+    let newRows;
+    if (rows) {
+        newRows = rows;
+    } else {
+        newRows = [];
+    }
+    newRows.push(newRow); 
+
+    setRows(newRows);
+    console.log(itemName);
+    console.log(itemDate);
+  }
+
+  console.log(rows);
 
   return (
     <div className="App">
@@ -74,19 +112,23 @@ function Index(props) {
             <div id= "table">
             <form method="post" action="myfridge.php">
                 <table>
-                    <tr>
-                         <th>Food Item</th>
-                         <th>Expiration Date</th>
-                         <th>Action</th>
-                    </tr>
-                    <tr>
-                        <td><input type="text" name="food" id="food"></input></td>
-                        <td><input type="date" date="expirationDate" id="date"></input></td>
-                        <td><button type="button" onClick={createItem}>Add</button></td>
-                        <td>{getItems}</td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <th>Food Item</th>
+                            <th>Expiration Date</th>
+                            <th>Action</th>
+                        </tr>
+                        <tr>
+                            <td><input type="text" name="food" id="food"></input></td>
+                            <td><input type="date" date="expirationDate" id="date"></input></td>
+                            <td><button type="button" onClick={addRow}>Add</button></td>
+                            <td>{getItems}</td>
+                        </tr>
+                        {rows}
+                    </tbody>
                 </table>
             </form>
+            {getItems}
             </div>
             : <button className="googleButton" onClick={signInWithGoogle}>Sign in with Google</button>
         }
