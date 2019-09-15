@@ -16,16 +16,6 @@ function Index(props) {
       <header className="App-header">
       <style>{'body { background-color: lightgrey; }'}</style>
       <h1 classname = {"App-header"}>myFridge</h1>
-      {
-          user 
-            ? <p>Hello, {user.displayName}</p>
-            : <p>Please sign in.</p>
-        }
-        {
-          user
-            ? <button className="googleButton" onClick={signOut}>Sign out</button>
-            : <button className="googleButton" onClick={signInWithGoogle}>Sign in with Google</button>
-        }
       
       </header>
       <img src={mainlogo} className="App-logo" alt="fridge" flex="bottom"/>
