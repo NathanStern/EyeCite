@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './Content.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import displayData from './displayData';
+import mainlogo from './fridge.png';
 
 import withFirebaseAuth from 'react-with-firebase-auth'
 import * as firebase from 'firebase';
@@ -97,17 +98,13 @@ function Index(props) {
 
   return (
     <div className="App">
-      <h1  align="left">MyFridge</h1>
       <header className="App-header">
+      <h1 classname = {"App-header"}>myFridge</h1>
+      <style>{'body { background-color: lightgrey; }'}</style>
         {
           user
             ? <button onClick={signOut}>Sign Out</button>
             : <></>
-        }
-        {
-          user 
-            ? <></>
-            : <p>Please sign in.</p>
         }
         {
           user
@@ -134,7 +131,7 @@ function Index(props) {
             : <button className="googleButton" onClick={signIn}>Sign in with Google</button>
         }
       </header>
-    
+      <img src={mainlogo} className="App-logo" alt="fridge" flex="bottom"/>
     </div>
   );
 }
