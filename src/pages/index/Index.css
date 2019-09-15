@@ -31,7 +31,7 @@
   bottom: 2%;
   right: 2%;
   position: fixed;
-  height: 40vmin;
+  height: 60vmin;
   pointer-events: none;
 }
 
@@ -43,7 +43,7 @@
   background-color: lightgray;
   position: fixed;
   margin: auto;
-  width: 50%;
+  width: 40%;
   font-size: 100px;
   border-style: solid;
   border: 3px black;
