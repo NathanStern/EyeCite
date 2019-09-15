@@ -31,7 +31,7 @@
   bottom: 2%;
   right: 2%;
   position: fixed;
-  height: 60vmin;
+  height: 65vmin;
   pointer-events: none;
 }
 
@@ -43,7 +43,7 @@
   background-color: lightgray;
   position: fixed;
   margin: auto;
-  width: 40%;
+  width: 70%;
   font-size: 100px;
   border-style: solid;
   border: 3px black;
@@ -51,6 +51,19 @@
   left: 1%;
   color: Deepskyblue;
 }
+.App-text {
+  background-color: lightgray;
+  position: fixed;
+  margin: auto;
+  width: 70%;
+  font-size: 30px;
+  border-style: solid;
+  border: 3px black;
+  top: 15%;
+  left: 1%;
+  color: black;
+}
+
 .loginButton{
   background-color:deepskyblue; /* Green */
   border: 3px black;
