@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './Content.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import displayData from './displayData';
@@ -8,6 +8,13 @@ import * as firebase from 'firebase';
 import 'firebase/auth';
 import firebaseConfig from '../../firebaseConfig';
 
+const accountSid = 'ACc0c0172d004290d08ab7c4b70a2d4cc7';
+const authToken = '5bb268a38f5fd6b48c0a1506df3a1921';
+
+const apiKey = 'SK6d6d6be0598b649444d61c6109a9856f';
+const authSecret = 'OAeWvft5PrttoWxsKni964hYHuR75Nte';
+
+
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 const firebaseAppAuth = firebaseApp.auth();
@@ -15,33 +22,6 @@ const firebaseAppAuth = firebaseApp.auth();
 const providers = {
     googleProvider: new firebase.auth.GoogleAuthProvider()
 };
- 
-
-function getItems(props) {
-  var documentData;
-  firebaseApp.firestore().collection('users').doc(firebase.auth().currentUser.uid).get().then(async function(doc) {
-    documentData = await doc.data().items;
-  });
-  
-  documentData.forEach(item => {
-    var documentID = item.substring(5);
-    var itemName;
-    var itemDate;
-    var itemData = [];
-    firebase.firestore().collection('items').doc(documentID).get().then(async function(doc) {
-      itemName = await doc.data().Name;
-      itemDate = await doc.data().ExpDate;
-      console.log(itemName);
-      console.log(itemDate);
-      itemData.push(<li><displayData itemName={itemName} itemDate={itemDate}/></li>);
-    });
-    return (
-    <ul id="userData">
-      {itemData}
-    </ul>);
-  });
-  
-}
 
 function createItem(props) {
   var itemName = document.getElementById('food').value;
@@ -68,25 +48,45 @@ function Index(props) {
   } = props;
 
   const [rows, setRows] = useState();
-  
-  function addRow() {
-    var itemName = document.getElementById('food').value;
-    var itemDate = document.getElementById('date').value;
 
+  async function signIn() {
+    await signInWithGoogle();
+    getItems();
+  }
+
+  function getItems() {
+    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('items').get({source: 'default'}).then(function(documentSnapshot) {
+      documentSnapshot.forEach((doc) => {
+        console.log(doc['id'])
+        if (doc['id'] !== 'initialDoc') {
+          firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('items').doc(doc['id']).get().then(function(doc) {
+            addRow(doc.data().Name, doc.data().ExpDate);
+          });
+        }
+       
+      });
+    }); 
+  }
+
+  function addRow(itemName, itemDate) {
     let newRow = (<tr>
         <td>{itemName}</td>
         <td>{itemDate}</td>
         <td><button type="button" onClick={() => {}}>Remove</button></td>
-        <td>{getItems}</td>
     </tr>);
 
     let newRows;
     if (rows) {
-        newRows = rows;
+        setRows([...rows, newRow]);
     } else {
-        newRows = [];
+        setRows([newRow]);
     }
     newRows.push(newRow); 
+
+    firebase.firestore().collection('users').doc(firebase.auth().currentUser.uid).collection('items').doc(itemName+"_"+itemDate).set({
+      Name: itemName,
+      ExpDate: itemDate
+    });
 
     setRows(newRows);
     console.log(itemName);
@@ -124,16 +124,14 @@ function Index(props) {
                         <tr>
                             <td><input type="text" name="food" id="food"></input></td>
                             <td><input type="date" date="expirationDate" id="date"></input></td>
-                            <td><button type="button" onClick={addRow}>Add</button></td>
-                            <td>{getItems}</td>
+                            <td><button type="button" onClick={() => addRow(document.getElementById('food').value, document.getElementById('date').value)}>Add</button></td>
                         </tr>
                         {rows}
                     </tbody>
                 </table>
             </form>
-            {getItems}
             </div>
-            : <button className="googleButton" onClick={signInWithGoogle}>Sign in with Google</button>
+            : <button className="googleButton" onClick={signIn}>Sign in with Google</button>
         }
       </header>
     
