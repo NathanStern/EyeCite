@@ -39,7 +39,7 @@ function Index(props) {
   } = props;
   return (
     <div className="App">
-      <button id="button-logout">Logout</button>
+      {/*<button id="button-logout">Logout</button>*/}
       <header className="App-header">
       <style>{'body { background-color: lightgrey; }'}</style>
       <h1 classname = {"App-header"}>myFridge</h1>
